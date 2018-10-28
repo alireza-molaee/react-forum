@@ -1,0 +1,26 @@
+[
+    {
+        "id": "t1",
+        "title": "topic 1",
+        "order": 1,
+        "color": "red",
+        "discussionCount": 5,
+        "description": "foo bar baz desc"
+    },
+    {
+        "id": "t2",
+        "title": "topic 2",
+        "order": 2,
+        "color": "blue",
+        "discussionCount": 15,
+        "description": "foo bar baz desc"
+    },
+    {
+        "id": "t3",
+        "title": "topic 3",
+        "order": 3,
+        "color": "yellow",
+        "discussionCount": 7,
+        "description": "foo bar baz desc"
+    }
+]
