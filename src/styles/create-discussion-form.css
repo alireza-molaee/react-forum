@@ -1,0 +1,4 @@
+.transition-height {
+    transition: All 1s ease;
+    overflow: hidden;
+}

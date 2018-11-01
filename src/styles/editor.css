@@ -1,0 +1,11 @@
+.rf-editor-wrapper {
+    border: 1px solid #e4e4e4;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.rf-editor-editor {
+    padding: 10px 20px;
+    min-height: 140px;
+}
