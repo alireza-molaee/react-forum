@@ -15,6 +15,18 @@ export default class ReplyForm extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleContentChange = this.handleContentChange.bind(this);
+        this.handleReplyPost = this.handleReplyPost.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.onReplyFn(this.handleReplyPost);
+    }
+
+    handleReplyPost(postContent) {
+        const newContent = `<blockquote>${postContent}<\/blockquote>${this.state.content}`
+        this.setState({
+            content: newContent,
+        });
     }
 
     handleSubmit(e) {

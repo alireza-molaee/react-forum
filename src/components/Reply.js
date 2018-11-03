@@ -8,6 +8,17 @@ import Avatar from './Avatar';
 
 
 export default class Reply extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.handleReplyPost = this.handleReplyPost.bind(this);
+    }
+
+    handleReplyPost() {
+        this.props.onReplyPost(this.props.content);
+    }
+
     render() {
         return (
             <Fragment>
@@ -29,7 +40,7 @@ export default class Reply extends Component {
                     </div>
                 </div>
                 <div className="d-flex my-2 justify-content-end">
-                    <button type="button" className="btn btn-default"><img width="20" height="20" src={replyIcon} alt="reply icon" /></button>
+                    <button onClick={this.handleReplyPost} type="button" className="btn btn-default"><img width="20" height="20" src={replyIcon} alt="reply icon" /></button>
                 </div>
             </Fragment>
         );
@@ -41,4 +52,5 @@ Reply.propTypes = {
     user: userType,
     sendDate: PropTypes.instanceOf(Date),
     content: PropTypes.string,
+    onReplyPost: PropTypes.func,
 }

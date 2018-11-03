@@ -15,11 +15,13 @@ export default class DiscussionSection extends Component {
         this.state = {
             hasMore: true,
             loading: true,
+            replies: [],
         }
 
         this.handleLoadMore = this.handleLoadMore.bind(this);
         this.renderEachPost = this.renderEachPost.bind(this);
         this.handleAddReply = this.handleAddReply.bind(this);
+        this.handleReplyPost = this.handleReplyPost.bind(this);
     }
 
     componentDidMount() {
@@ -36,6 +38,10 @@ export default class DiscussionSection extends Component {
         })
     }
 
+    handleReplyPost(postContent) {
+        this.formReplyPost(postContent);
+    }
+
     renderEachPost() {
         return this.props.discussion.replies.map((replyPost, index) => {
             return <Reply
@@ -44,6 +50,7 @@ export default class DiscussionSection extends Component {
                 user={replyPost.user}
                 sendDate={replyPost.sendDate}
                 content={replyPost.content}
+                onReplyPost={this.handleReplyPost}
             />;
         });
     }
@@ -71,6 +78,7 @@ export default class DiscussionSection extends Component {
                                 user={this.props.discussion.creator}
                                 sendDate={this.props.discussion.createAt}
                                 content={this.props.discussion.content}
+                                onReplyPost={this.handleReplyPost}
                             />
                             <InfiniteScroll
                                 pageStart={0}
@@ -92,7 +100,7 @@ export default class DiscussionSection extends Component {
                     </div>
                     <div className="row">
                         <div className="col-12">
-                            <ReplyForm onSubmit={this.handleAddReply} initData={null}/>
+                            <ReplyForm onSubmit={this.handleAddReply} initData={null} replies={this.state.replies} onReplyFn={replyFn => (this.formReplyPost = replyFn)}/>
                         </div>
                     </div>
                 </div>
