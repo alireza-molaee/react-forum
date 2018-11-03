@@ -1,7 +1,8 @@
 import React , {Component} from 'react';
 import PropTypes from 'prop-types';
 import Editor from './Editor';
-import '../styles/create-discussion-form.css';
+import {LoadingInButton} from './Loading';
+
 
 export default class CreateDiscussionForm extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ export default class CreateDiscussionForm extends Component {
             title: initDate.title,
             formOpen: false,
             content: initDate.content || '',
+            loading: false,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,10 +27,18 @@ export default class CreateDiscussionForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.setState({loading: true});
         if (this.state.title) {
             this.props.onSubmit({
                 title: this.state.title,
                 content: this.state.content,
+            }).then(() => {
+                this.setState({
+                    loading: false,
+                    formOpen: false,
+                    title: '',
+                    content: ''
+                });
             });
         }
     }
@@ -61,6 +71,7 @@ export default class CreateDiscussionForm extends Component {
 
     render() {
         const formHeight = this.state.formOpen ? '500px' : '45px';
+        const loading = this.state.loading;
         return (
             <form className="my-3 transition-height" style={{maxHeight: formHeight}} onSubmit={this.handleSubmit}>
                 <div className="form-group">
@@ -76,7 +87,10 @@ export default class CreateDiscussionForm extends Component {
                 </div>
                 <Editor onChange={this.handleContentChange} value={this.state.content} />
                 <div>
-                    <button type="submit" className="btn btn-primary" disabled={this.formOpen}>send</button>
+                    <button type="submit" className="btn btn-primary" disabled={this.state.formOpen && loading}>
+                        send
+                        { loading && <LoadingInButton/>}
+                    </button>
                 </div>
             </form>
         );

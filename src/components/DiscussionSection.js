@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
 import Loader from 'react-loader-spinner';
 import Reply from './Reply';
 import ReplyForm from './ReplyForm';
+import { discussionType } from '../prop-types';
 
 
 export default class DiscussionSection extends Component {
@@ -39,7 +41,7 @@ export default class DiscussionSection extends Component {
     }
 
     handleAddReply(reply) {
-        this.props.onAddReply(reply)
+        return this.props.onAddReply(reply)
     }
 
     render() {
@@ -74,16 +76,21 @@ export default class DiscussionSection extends Component {
                             </InfiniteScroll>
                         </div>
                         {/* <div className="col-md-3 col-lg-2 d-xs-none">
-
                         </div> */}
                     </div>
                     <div className="row">
                         <div className="col-12">
-                            <ReplyForm onSubmit={this.handleAddReply}/>
+                            <ReplyForm onSubmit={this.handleAddReply} initData={null}/>
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
+}
+
+DiscussionSection.propTypes = {
+    discussion: discussionType,
+    loadMore: PropTypes.func,
+    onAddReply: PropTypes.func,
 }

@@ -5,7 +5,7 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import PropTypes from 'prop-types';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import '../styles/editor.css';
+
 
 const editorToolbar = {
     options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'colorPicker', 'link', 'emoji', 'history'],

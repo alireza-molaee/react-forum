@@ -4,11 +4,13 @@ import {render} from 'react-dom'
 import Forum from '../../src'
 
 import topics from './data/topics.json';
-import discussions from './data/discussion.json';
-// import discussions from './data/discussions.json';
-import latest from './data/latest.json';
+import _discussions from './data/discussions.json';
 import currentUser from './data/current-user.json';
 
+const discussions = _discussions.map((d) => {
+  d.createAt = new Date(d.createAt);
+  return d;
+})
 
 
 class Demo extends Component {
@@ -81,45 +83,41 @@ class Demo extends Component {
     }, 3000);
   }
 
-  handleCreateDiscussion(discussionData, topicId, cb) {
+  handleCreateDiscussion(topicId, discussionData, cb) {
     setTimeout(() => {
       discussions.push({
         "id": Number(new Date()).toString(),
         "topicId": topicId,
         "title": discussionData.title,
+        "content": discussionData.content,
         "creator": currentUser,
         "createAt": new Date(),
         "replies": [],
       });
       this.setState({
-        discussions
+        discussions: [
+          {
+            id: Number(new Date()).toString(),
+            topicId: topicId,
+            title: discussionData.title, 
+            users: [currentUser],
+            lastActivity: new Date(),
+            replies: 0,
+            views: 0
+          },
+          ...this.state.discussions
+        ]
       });
       cb();
     }, 3000);
   }
 
   handleUpdateDiscussion(discussionData, discussionId, cb) {
-    setTimeout(() => {
-      const targetIndex = discussions.findIndex(d => d.id === discussionId);
-      discussions[targetIndex].title = discussionData.date;
-      this.setState({
-        discussions
-      });
-      cb();
-    }, 3000);
+    
   }
 
   handleDeleteDiscussion(discussionId, cb) {
-    setTimeout(() => {
-      const targetIndex = discussions.findIndex(d => d.id === discussionId);
-      if (targetIndex > -1) {
-        discussions.splice(targetIndex, 1);
-      }
-      this.setState({
-        discussions
-      });
-      cb();
-    }, 3000);
+   
   }
 
   handleNeedDiscussionReplies(discussionId, page, cb) {
@@ -156,19 +154,44 @@ class Demo extends Component {
     }, 1000);
   }
 
-  handleCreateReply(replyData, discussionId, cb) {
-    const discussion = discussions.filter((dis) => {
-      return dis.topicId === discussionId;
+  handleCreateReply(discussionId, replyData, cb) {
+    const discussion = discussions.find((dis) => {
+      return dis.id === discussionId;
     });
+    discussion.replies = discussion.replies ? discussion.replies : [];
     discussion.replies.push({
-      "id": "r6134",
+      "id": `r${Number(new Date())}`,
       "user": currentUser,
       "content": replyData.content,
       "sendDate": new Date(),
     });
+    const discussionTarget = Object.assign({}, discussion);
     setTimeout(() => {
       this.setState({
-        discussions,
+        discussions: [
+          ...this.state.discussions,
+          {
+            "id": discussionTarget.id,
+            "topicId": discussionTarget.topicId,
+            "title": discussionTarget.title,
+            "users": [discussionTarget.creator],
+            "lastActivity": new Date(discussionTarget.createAt),
+            "replies": discussionTarget.replies.length,
+            "views": 0
+          }
+        ],
+        discussion: {
+          ...this.state.discussion,
+          replies: [
+            ...this.state.discussion.replies,
+            {
+              "id": `r${Number(new Date())}`,
+              "user": currentUser,
+              "content": replyData.content,
+              "sendDate": new Date(),
+            }       
+          ]
+        }
       });
       cb();
     }, 1000)
@@ -191,7 +214,6 @@ class Demo extends Component {
         </div>
       </div>
       <Forum 
-        currentUser={this.state.currentUser}
         topics={this.state.topics}
         latest={this.state.latest}
         discussions={this.state.discussions}
@@ -203,10 +225,10 @@ class Demo extends Component {
         onCreateDiscussion={this.handleCreateDiscussion.bind(this)}
         onUpdateDiscussion={this.handleUpdateDiscussion.bind(this)}
         onDeleteDiscussion={this.handleDeleteDiscussion.bind(this)}
+        onNeedDiscussionReplies={this.handleNeedDiscussionReplies.bind(this)}
         onCreateReply={this.handleCreateReply.bind(this)}
         onUpdateReply={this.handleUpdateReply.bind(this)}
         onDeleteReply={this.handleDeleteReply.bind(this)}
-        onNeedDiscussionReplies={this.handleNeedDiscussionReplies.bind(this)}
       />
     </div>
   }

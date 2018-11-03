@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import avatarImage from '../assets/avatar.png';
-import '../styles/avatar.css';
 import Tooltip from 'tooltip.js';
 
 export default class Avatar extends Component {

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import TopicItem from './TopicItem';
 import { topicType, discussionSummeryType } from '../prop-types';
-import '../styles/topics.css';
+
 
 export default class TopicsSection extends Component {
 

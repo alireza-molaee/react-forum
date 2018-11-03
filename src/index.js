@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import './styles/bootstrap.min.css';
-import './styles/global.css';
+import './styles/index.css';
 
 import DiscussionSection from './components/DiscussionSection';
 import DiscussionsSection from './components/DiscussionsSection';
@@ -117,7 +116,6 @@ export default class Forum extends Component {
 
 
 Forum.propTypes = {
-  currentUser: userType,
   topics: PropTypes.arrayOf(topicType),
   latest: PropTypes.arrayOf(discussionSummeryType),
   discussions: PropTypes.arrayOf(discussionSummeryType),

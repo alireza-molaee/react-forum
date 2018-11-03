@@ -8,7 +8,7 @@ export default class ReplyForm extends Component {
         super(props);
         
         this.state = {
-            content: props.initDate.content || ''
+            content: (props.initData && props.initData.content) || ''
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);

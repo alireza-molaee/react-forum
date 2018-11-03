@@ -3,7 +3,6 @@ import Avatar from './Avatar';
 import PropTypes from 'prop-types';
 import { discussionSummeryType } from '../prop-types';
 import * as moment from 'moment';
-import '../styles/discussions-section.css';
 import Loader from 'react-loader-spinner';
 import InfiniteScroll from 'react-infinite-scroller';
 import CreateDiscussionForm from './CreateDiscussionForm';
@@ -63,7 +62,7 @@ export default class DiscussionsSection extends Component {
     }
 
     handleAddDiscussion(discussion) {
-        this.props.onAddDiscussion(discussion);
+        return this.props.onAddDiscussion(discussion)
     }
 
     render() {
@@ -121,4 +120,5 @@ DiscussionsSection.propTypes = {
     discussions: PropTypes.arrayOf(discussionSummeryType),
     onSelectDiscussion: PropTypes.func,
     loadMore: PropTypes.func,
+    onAddDiscussion: PropTypes.func,
 }

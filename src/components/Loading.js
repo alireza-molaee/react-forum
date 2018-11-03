@@ -12,3 +12,16 @@ export default function Loading(props) {
         /></div>
     );
 }
+
+export function LoadingInButton(props) {
+    return (
+        <div className="loading-in-button">
+            <Loader 
+                type="Oval"
+                color="white"
+                height="25"	
+                width="25"
+            />
+        </div>
+    );
+}
