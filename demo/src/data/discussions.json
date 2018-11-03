@@ -2,59 +2,75 @@
     {
         "id": "d1",
         "topicId": "t1",
-        "title": "example title",
-        "users": [{
+        "creator": {
             "image": "",
             "fullName": "alireza molaee",
             "role": "admin"
-        }],
-        "lastActivity": "2013-02-04T10:35:24-08:00",
-        "replies": 6,
-        "views": 10000
-    },
-    {
-        "id": "d2",
-        "topicId": "t1",
-        "title": "next title",
-        "users": [
+        },
+        "title": "example title 1",
+        "content": "<p>hello world</p>",
+        "createAt": "2013-02-04T10:35:24-08:00",
+        "replies": [
             {
-                "image": "",
-                "fullName": "alireza molaee",
-                "role": "admin"
+                "id": "r1",
+                "user": {
+                    "image": "",
+                    "fullName": "jack koper",
+                    "role": "reader"
+                },
+                "content": "<p>foo bar replay 1</p>",
+                "sendDate": "2013-02-04T10:35:24-08:00"
             },
             {
-                "image": "",
-                "fullName": "asghar farhadi",
-                "role": "co-leader"
+                "id": "r2",
+                "user": {
+                    "image": "",
+                    "fullName": "john richard",
+                    "role": "reader"
+                },
+                "content": "<p>foo bar replay 2</p>",
+                "sendDate": "2013-02-04T10:35:24-08:00"
             },
             {
-                "image": "",
-                "fullName": "akbar mashdi",
-                "role": "reader"
+                "id": "r3",
+                "user": {
+                    "image": "",
+                    "fullName": "asghar farhadi",
+                    "role": "co-leader"
+                },
+                "content": "<p>foo bar replay 3</p>",
+                "sendDate": "2013-02-04T10:35:24-08:00"
+            },
+            {
+                "id": "r4",
+                "user": {
+                    "image": "",
+                    "fullName": "akbar mashdi",
+                    "role": "reader"
+                },
+                "content": "<p>foo bar replay 4</p>",
+                "sendDate": "2013-02-04T10:35:24-08:00"
+            },
+            {
+                "id": "r5",
+                "user": {
+                    "image": "",
+                    "fullName": "jack koper",
+                    "role": "reader"
+                },
+                "content": "<p>foo bar replay 5</p>",
+                "sendDate": "2013-02-04T10:35:24-08:00"
+            },
+            {
+                "id": "r6",
+                "user": {
+                    "image": "",
+                    "fullName": "jack koper",
+                    "role": "reader"
+                },
+                "content": "<p>foo bar replay 6</p>",
+                "sendDate": "2013-02-04T10:35:24-08:00"
             }
-        ],
-        "lastActivity": "2013-04-04T10:35:24-08:00",
-        "replies": 15,
-        "views": 684
-    },
-    {
-        "id": "d3",
-        "topicId": "t2",
-        "title": "another topic title",
-        "users": [
-            {
-                "image": "",
-                "fullName": "alireza molaee",
-                "role": "admin"
-            },
-            {
-                "image": "",
-                "fullName": "asghar farhadi",
-                "role": "co-leader"
-            }
-        ],
-        "lastActivity": "2013-09-04T10:35:24-08:00",
-        "replies": 5,
-        "views": 684
+        ]
     }
 ]
