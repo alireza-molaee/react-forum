@@ -31,6 +31,19 @@ export default class EditorConvertToHTML extends Component {
         this.onEditorStateChange = this.onEditorStateChange.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+        let editorState;
+        if (prevProps.value !== this.props.value) {
+            const contentBlock = htmlToDraft(this.props.value);
+            if (contentBlock) {
+                editorState = EditorState.createWithContent(ContentState.createFromBlockArray(contentBlock.contentBlocks));
+            } else {
+                editorState = EditorState.createEmpty()
+            }
+            this.setState({editorState});
+        }
+    }
+
     onEditorStateChange(editorState) {
         this.setState({
             editorState,

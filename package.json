@@ -22,6 +22,7 @@
   "dependencies": {
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
+    "history": "^4.7.2",
     "html-react-parser": "^0.4.7",
     "html-to-draftjs": "^1.4.0",
     "moment": "^2.22.2",

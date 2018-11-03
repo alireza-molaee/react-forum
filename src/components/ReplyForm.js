@@ -1,6 +1,7 @@
 import React , {Component} from 'react';
 import PropTypes from 'prop-types';
 import Editor from './Editor';
+import {LoadingInButton} from './Loading';
 
 
 export default class ReplyForm extends Component {
@@ -8,7 +9,8 @@ export default class ReplyForm extends Component {
         super(props);
         
         this.state = {
-            content: (props.initData && props.initData.content) || ''
+            content: (props.initData && props.initData.content) || '',
+            loading: false,
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,8 +19,14 @@ export default class ReplyForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.setState({loading: true});
         this.props.onSubmit({
             content: this.state.content,
+        }).then(() => {
+            this.setState({
+                loading: false,
+                content: '',
+            });
         });
     }
 
@@ -29,12 +37,16 @@ export default class ReplyForm extends Component {
     }
 
     render() {
+        const {loading} = this.state;
         return (
             <form className="my-3" onSubmit={this.handleSubmit}>
                 <label>Reply:</label>
                 <Editor onChange={this.handleContentChange} value={this.state.content} />
                 <div>
-                    <button type="submit" className="btn btn-primary">send</button>
+                    <button type="submit" className="btn btn-primary" disabled={loading}>
+                        send
+                        { loading && <LoadingInButton/>}
+                    </button>
                 </div>
             </form>
         );

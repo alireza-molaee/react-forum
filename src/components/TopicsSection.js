@@ -13,7 +13,7 @@ export default class TopicsSection extends Component {
     }
 
     handleSelectTopic(topic) {
-        this.props.onSelectTopic(topic.id, 0);
+        this.props.history.push(`${this.props.match.url}/${topic.id}/discussions`);
     }
 
     renderTopics() {

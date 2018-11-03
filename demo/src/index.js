@@ -1,7 +1,9 @@
-import React, {Component} from 'react'
-import {render} from 'react-dom'
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import { Router, BrowserRouter, HashRouter } from 'react-router-dom';
+import { createHashHistory } from 'history';
 
-import Forum from '../../src'
+import Forum from '../../src';
 
 import topics from './data/topics.json';
 import _discussions from './data/discussions.json';
@@ -11,6 +13,11 @@ const discussions = _discussions.map((d) => {
   d.createAt = new Date(d.createAt);
   return d;
 })
+
+const localHistory = createHashHistory({
+  basename: '',
+  hashType: 'slash',
+});
 
 
 class Demo extends Component {
@@ -213,23 +220,27 @@ class Demo extends Component {
           <p className="lead">Foo Bar.</p>
         </div>
       </div>
-      <Forum 
-        topics={this.state.topics}
-        latest={this.state.latest}
-        discussions={this.state.discussions}
-        discussion={this.state.discussion}
-        canReply
-        canCreateDiscussion
-        onNeedDiscussions={this.handleNeedDiscussions.bind(this)}
-        onNeedDiscussion={this.handleNeedDiscussion.bind(this)}
-        onCreateDiscussion={this.handleCreateDiscussion.bind(this)}
-        onUpdateDiscussion={this.handleUpdateDiscussion.bind(this)}
-        onDeleteDiscussion={this.handleDeleteDiscussion.bind(this)}
-        onNeedDiscussionReplies={this.handleNeedDiscussionReplies.bind(this)}
-        onCreateReply={this.handleCreateReply.bind(this)}
-        onUpdateReply={this.handleUpdateReply.bind(this)}
-        onDeleteReply={this.handleDeleteReply.bind(this)}
-      />
+      <Router history={localHistory}>
+        <Forum
+          basePath={'/asd'}
+          history={localHistory}
+          topics={this.state.topics}
+          latest={this.state.latest}
+          discussions={this.state.discussions}
+          discussion={this.state.discussion}
+          canReply
+          canCreateDiscussion
+          onNeedDiscussions={this.handleNeedDiscussions.bind(this)}
+          onNeedDiscussion={this.handleNeedDiscussion.bind(this)}
+          onCreateDiscussion={this.handleCreateDiscussion.bind(this)}
+          onUpdateDiscussion={this.handleUpdateDiscussion.bind(this)}
+          onDeleteDiscussion={this.handleDeleteDiscussion.bind(this)}
+          onNeedDiscussionReplies={this.handleNeedDiscussionReplies.bind(this)}
+          onCreateReply={this.handleCreateReply.bind(this)}
+          onUpdateReply={this.handleUpdateReply.bind(this)}
+          onDeleteReply={this.handleDeleteReply.bind(this)}
+        />
+      </Router>
     </div>
   }
 }

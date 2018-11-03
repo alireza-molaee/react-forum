@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { Switch, Route } from 'react-router-dom';
 
 import './styles/index.css';
 
 import DiscussionSection from './components/DiscussionSection';
 import DiscussionsSection from './components/DiscussionsSection';
 import TopicsSection from './components/TopicsSection';
-import Loading from './components/Loading';
 
 import {
   discussionSummeryType,
@@ -20,102 +20,94 @@ export default class Forum extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      section: 'topics',
+      loading: false,
       selectedDiscussion: null,
       selectedTopic: null
     };
 
-    this.handleSelectTopic = this.handleSelectTopic.bind(this);
     this.handleLoadReplies = this.handleLoadReplies.bind(this);
     this.handleLoadDiscussions = this.handleLoadDiscussions.bind(this);
-    this.handleSelectDiscussion = this.handleSelectDiscussion.bind(this);
+    this.handleLoadDiscussion = this.handleLoadDiscussion.bind(this);
     this.handleAddReply = this.handleAddReply.bind(this);
     this.handleAddDiscussion = this.handleAddDiscussion.bind(this);
   }
 
-  handleSelectTopic(topicId) {
-    this.setState({
-      section: 'discussions',
-      selectedTopic: topicId
-    })
-  }
-
-  handleLoadReplies(page) {
+  handleLoadReplies(discussionId, page) {
     return new Promise((resolver) => {
-      this.props.onNeedDiscussionReplies(this.state.selectedDiscussion ,page, (isLoadAllOfReplies) => {
+      this.props.onNeedDiscussionReplies(discussionId, page, (isLoadAllOfReplies) => {
         resolver(isLoadAllOfReplies);
       });
     });
   }
 
-  handleLoadDiscussions(page) {
+  handleLoadDiscussions(page, topicId) {
     return new Promise((resolver) => {
-      this.props.onNeedDiscussions(this.state.selectedTopic, 'date', page, (isLoadAllOfDiscussion) => {
+      this.props.onNeedDiscussions(topicId, 'date', page, (isLoadAllOfDiscussion) => {
         resolver(isLoadAllOfDiscussion);
       });
     });
   }
 
-  handleSelectDiscussion(discussionId) {
-    this.setState({
-      section: '',
-      selectedDiscussion: discussionId
-    });
+  handleLoadDiscussion(discussionId) {
     return new Promise((resolver) => {
       this.props.onNeedDiscussion(discussionId, () => {
-        this.setState({
-          section: 'discussion',
-        });
         resolver();
       });
     });
   }
 
-  handleAddReply(reply) {
+  handleAddReply(discussionId, reply) {
     return new Promise((resolver) => {
-      this.props.onCreateReply(this.state.selectedDiscussion, reply, () => {
+      this.props.onCreateReply(discussionId, reply, () => {
         resolver();
       });
     });
   }
 
-  handleAddDiscussion(discussion) {
+  handleAddDiscussion(topicId, discussion) {
     return new Promise((resolver) => {
-      this.props.onCreateDiscussion(this.state.selectedTopic, discussion, () => {
+      this.props.onCreateDiscussion(topicId, discussion, () => {
         resolver();
       });
     })
   }
 
   render() {
-    switch (this.state.section) {
-      case 'discussion':
-        return <DiscussionSection
-          discussion={this.props.discussion}
-          loadMore={this.handleLoadReplies}
-          onAddReply={this.handleAddReply}
-        />
-      case 'discussions':
-        return <DiscussionsSection
-          discussions={this.props.discussions}
-          onSelectDiscussion={this.handleSelectDiscussion}
-          loadMore={this.handleLoadDiscussions}
-          onAddDiscussion={this.handleAddDiscussion}
-        />
-      case 'topics':
-        return <TopicsSection
-          topics={this.props.topics}
-          latest={this.props.latest}
-          onSelectTopic={this.handleSelectTopic}
-        />
-      default:
-        return <Loading />        
-    }
+    const { basePath } = this.props;
+    return (
+      <Switch>
+        <Route exact path={`${basePath}/topics/:topicId/discussions/:discussionId`} render={(props) => (
+          <DiscussionSection
+            discussion={this.props.discussion}
+            onNeedDiscussion={this.handleLoadDiscussion}
+            loadMore={this.handleLoadReplies}
+            onAddReply={this.handleAddReply}
+            {...props}
+          />
+        )}/>
+        <Route exact path={`${basePath}/topics/:topicId/discussions`} render={(props) => (
+          <DiscussionsSection
+            discussions={this.props.discussions}
+            loadMore={this.handleLoadDiscussions}
+            onAddDiscussion={this.handleAddDiscussion}
+            {...props}
+          />
+        )}/>
+        <Route exact path={`${basePath}/topics`} render={(props) => (
+          <TopicsSection
+            topics={this.props.topics}
+            latest={this.props.latest}
+            {...props}
+          />
+        )}/>
+      </Switch>
+    );
   }
 }
 
 
 Forum.propTypes = {
+  basePath: PropTypes.string,
   topics: PropTypes.arrayOf(topicType),
   latest: PropTypes.arrayOf(discussionSummeryType),
   discussions: PropTypes.arrayOf(discussionSummeryType),

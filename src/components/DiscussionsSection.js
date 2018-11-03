@@ -23,7 +23,7 @@ export default class DiscussionsSection extends Component {
     }
 
     handleLoadMore(page) {
-        this.props.loadMore(page).then((isComplete) => {
+        this.props.loadMore(page, this.props.match.params.topicId).then((isComplete) => {
             this.setState({
                 hasMore: !isComplete,
             })
@@ -31,7 +31,7 @@ export default class DiscussionsSection extends Component {
     }
 
     handleClickOnRow(discussion) {
-        this.props.onSelectDiscussion(discussion.id);
+        this.props.history.push(`${this.props.match.url}/${discussion.id}`)
     }
 
     renderEachRow() {
@@ -62,7 +62,7 @@ export default class DiscussionsSection extends Component {
     }
 
     handleAddDiscussion(discussion) {
-        return this.props.onAddDiscussion(discussion)
+        return this.props.onAddDiscussion(this.props.match.params.topicId, discussion)
     }
 
     render() {
@@ -118,7 +118,6 @@ export default class DiscussionsSection extends Component {
 
 DiscussionsSection.propTypes = {
     discussions: PropTypes.arrayOf(discussionSummeryType),
-    onSelectDiscussion: PropTypes.func,
     loadMore: PropTypes.func,
     onAddDiscussion: PropTypes.func,
 }

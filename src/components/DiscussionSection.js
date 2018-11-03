@@ -5,13 +5,16 @@ import Loader from 'react-loader-spinner';
 import Reply from './Reply';
 import ReplyForm from './ReplyForm';
 import { discussionType } from '../prop-types';
+import Loading from './Loading';
 
 
 export default class DiscussionSection extends Component {
     constructor(props) {
+        
         super(props);
         this.state = {
             hasMore: true,
+            loading: true,
         }
 
         this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -19,9 +22,14 @@ export default class DiscussionSection extends Component {
         this.handleAddReply = this.handleAddReply.bind(this);
     }
 
+    componentDidMount() {
+        this.props.onNeedDiscussion(this.props.match.params.discussionId).then(() => {
+            this.setState({loading: false});
+        })
+    }
 
     handleLoadMore(page) {
-        this.props.loadMore(page).then((isCompletedLoad) => {
+        this.props.loadMore(this.props.match.params.discussionId, page).then((isCompletedLoad) => {
             this.setState({
                 hasMore: !isCompletedLoad,
             });
@@ -41,10 +49,14 @@ export default class DiscussionSection extends Component {
     }
 
     handleAddReply(reply) {
-        return this.props.onAddReply(reply)
+        return this.props.onAddReply(this.props.match.params.discussionId, reply);
     }
 
     render() {
+        const {loading} = this.state;
+        if (loading) {
+            return <Loading />;
+        }
         return (
             <div className="row">
                 <div className="col-12">
