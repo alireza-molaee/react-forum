@@ -2,6 +2,7 @@ import React , {Component} from 'react';
 import PropTypes from 'prop-types';
 import Editor from './Editor';
 import {LoadingInButton} from './Loading';
+import {LangContext} from '../i18n';
 
 
 export default class CreateDiscussionForm extends Component {
@@ -78,7 +79,7 @@ export default class CreateDiscussionForm extends Component {
                     <input
                         className="form-control"
                         name="title"
-                        placeholder="Discussion Title"
+                        placeholder={this.context.discussionTitle}
                         value={this.state.title}
                         onChange={this.handleTitleInputChange}
                         onFocus={this.handleTitleInputFocus}
@@ -88,7 +89,7 @@ export default class CreateDiscussionForm extends Component {
                 <Editor onChange={this.handleContentChange} value={this.state.content} />
                 <div>
                     <button type="submit" className="btn btn-primary" disabled={this.state.formOpen && loading}>
-                        send
+                        {this.context.send}
                         { loading && <LoadingInButton/>}
                     </button>
                 </div>
@@ -96,6 +97,8 @@ export default class CreateDiscussionForm extends Component {
         );
     }
 }
+
+CreateDiscussionForm.contextType = LangContext;
 
 CreateDiscussionForm.propTypes = {
     initDate: PropTypes.shape({

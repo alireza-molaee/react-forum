@@ -2,6 +2,7 @@ import React , {Component} from 'react';
 import PropTypes from 'prop-types';
 import Editor from './Editor';
 import {LoadingInButton} from './Loading';
+import {LangContext} from '../i18n';
 
 
 export default class ReplyForm extends Component {
@@ -52,11 +53,11 @@ export default class ReplyForm extends Component {
         const {loading} = this.state;
         return (
             <form className="my-3" onSubmit={this.handleSubmit}>
-                <label>Reply:</label>
+                <label>{this.context.reply}:</label>
                 <Editor onChange={this.handleContentChange} value={this.state.content} />
                 <div>
                     <button type="submit" className="btn btn-primary" disabled={loading}>
-                        send
+                        {this.context.send}
                         { loading && <LoadingInButton/>}
                     </button>
                 </div>
@@ -64,6 +65,8 @@ export default class ReplyForm extends Component {
         );
     }
 }
+
+ReplyForm.contextType = LangContext;
 
 ReplyForm.propTypes = {
     initDate: PropTypes.shape({

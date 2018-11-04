@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import { Router, BrowserRouter, HashRouter } from 'react-router-dom';
 import { createHashHistory } from 'history';
+import './bootstrap.min.css';
 
 import Forum from '../../src';
 

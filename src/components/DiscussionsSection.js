@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import Loader from 'react-loader-spinner';
 import InfiniteScroll from 'react-infinite-scroller';
 import CreateDiscussionForm from './CreateDiscussionForm';
-
+import {LangContext} from '../i18n';
 
 export default class DiscussionsSection extends Component {
     constructor(props) {
@@ -70,7 +70,7 @@ export default class DiscussionsSection extends Component {
             <Fragment>
                 <div className="row">
                     <div className="col-12">
-                        <h2>Create New Discussion</h2>
+                        <h2>{this.context.createDiscussion}</h2>
                     </div>
                     <div className="col-12">
                         <CreateDiscussionForm
@@ -80,7 +80,7 @@ export default class DiscussionsSection extends Component {
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <h2>Discussions</h2>
+                        <h2>{this.context.discussions}</h2>
                     </div>
                     <div className="col-12">
                         <InfiniteScroll
@@ -98,10 +98,10 @@ export default class DiscussionsSection extends Component {
                             <table className="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Creator</th>
-                                        <th scope="col">Replies</th>
-                                        <th scope="col">Last Activity</th>
+                                        <th scope="col">{this.context.title}</th>
+                                        <th scope="col">{this.context.creator}</th>
+                                        <th scope="col">{this.context.replies}</th>
+                                        <th scope="col">{this.context.lastActivity}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,6 +115,8 @@ export default class DiscussionsSection extends Component {
         );
     }
 }
+
+DiscussionsSection.contextType = LangContext;
 
 DiscussionsSection.propTypes = {
     discussions: PropTypes.arrayOf(discussionSummeryType),

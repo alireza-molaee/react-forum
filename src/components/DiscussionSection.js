@@ -6,6 +6,7 @@ import Reply from './Reply';
 import ReplyForm from './ReplyForm';
 import { discussionType } from '../prop-types';
 import Loading from './Loading';
+import {LangContext} from '../i18n';
 
 
 export default class DiscussionSection extends Component {
@@ -67,7 +68,7 @@ export default class DiscussionSection extends Component {
         return (
             <div className="row">
                 <div className="col-12">
-                    <h2>Discussion</h2>
+                    <h2>{this.context.discussion}</h2>
                 </div>
                 <div className="col-12">
                     <div className="row">
@@ -108,6 +109,8 @@ export default class DiscussionSection extends Component {
         );
     }
 }
+
+DiscussionSection.contextType = LangContext;
 
 DiscussionSection.propTypes = {
     discussion: discussionType,

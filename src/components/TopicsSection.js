@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import TopicItem from './TopicItem';
 import { topicType, discussionSummeryType } from '../prop-types';
+import {LangContext} from '../i18n';
 
 
 export default class TopicsSection extends Component {
@@ -33,13 +34,14 @@ export default class TopicsSection extends Component {
     }
 
     render() {
+        console.log(this.context);
         return (
             <div className="row">
                 <div className="col-12 col-md-7 col-lg-6">
-                    <h2>Topics</h2>
+                    <h2>{this.context.topics}</h2>
                     <div className="d-flex justify-content-between align-items-center mx-2">
-                        <span className="text-muted">Title</span>
-                        <span className="text-muted">Discussions</span>
+                        <span className="text-muted">{this.context.title}</span>
+                        <span className="text-muted">{this.context.discussionCount}</span>
                     </div>
                     <div className="list-group topics-list">
                         {this.renderTopics()}
@@ -52,6 +54,8 @@ export default class TopicsSection extends Component {
         );
     }
 }
+
+TopicsSection.contextType = LangContext;
 
 TopicsSection.propTypes = {
     topics: PropTypes.arrayOf(topicType),
